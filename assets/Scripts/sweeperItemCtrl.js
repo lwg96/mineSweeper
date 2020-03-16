@@ -12,36 +12,79 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        _childArr:{
+            default: [],
+            type: cc.Node
+        },
+
+        _eliminateFlag:{
+            default: false,
+        },
+
+        _posX:{
+            default: -1,
+            type: cc.Integer
+        },
+
+        _posY:{
+            default: -1,
+            type: cc.Integer
+        },
+
+        _index:{
+            default: -1,
+            type: cc.Integer
+        }
     },
 
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {},
-
-    init:function(gameManager,index, x ,y ){
+    init:function(gameManager, x ,y, index ){
         this.gameManager = gameManager;
-        this.index = index;
-        this.posX = x;
-        this.posY = y;
+        this._index = index;
+        this._posX = x;
+        this._posY = y;
+
+        this._childArr = [];
+        this._eliminateFlag = false;
+
+        this.node.getChildByName("lab").getComponent(cc.Label).string = index;
     },
 
     onClick:function(){
-        this.gameManager.getScore(this.posX, this.posY);
+        this.gameManager.getScore(this._posX, this._posY);
+    },
+
+    pushChild:function(node){
+        this._childArr.push(node);
+    },
+
+    getChild:function(){
+        return this._childArr;
+    },
+
+    resetChild:function(){
+        this._childArr = [];
+    },
+
+
+    setEliminateFlag:function(eliminateFlag){
+        this._eliminateFlag = eliminateFlag;
+    },
+
+    getEliminateFlag:function(){
+        return this._eliminateFlag;
+    },
+
+
+    getIndex:function(){
+        return this._index;
+    },
+
+    getPosX:function(){
+        return this._posX;
+    },
+
+    getPosY:function(){
+        return this._posY;
     },
 
     // update (dt) {},
